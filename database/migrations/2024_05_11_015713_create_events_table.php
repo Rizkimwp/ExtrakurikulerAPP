@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->text('deskripsi');
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_akhir');
+            $table->date('jadwal')->nullable();
+            $table->foreignId('id_extrakurikuler');
             $table->timestamps();
         });
     }

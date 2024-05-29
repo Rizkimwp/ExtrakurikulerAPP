@@ -10,15 +10,15 @@ class Member extends Model
     use HasFactory;
 
     protected $table = 'members';
-    protected $fillable = ['id_siswa', 'id_extrakurikuler'];
+    protected $fillable = ['id_siswa', 'id_ekstrakurikuler'];
 
     public function siswa()
     {
         return $this->belongsTo(Siswa::class, 'id_siswa');
     }
 
-    public function extrakurikuler()
+    public function ekstrakurikuler()
     {
-        return $this->belongsTo(Extrakurikuler::class, 'id_extrakurikuler');
+        return $this->belongsTo(Extrakurikuler::class, 'id_ekstrakurikuler');
     }
 }

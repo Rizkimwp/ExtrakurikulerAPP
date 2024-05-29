@@ -16,6 +16,7 @@
                 class="fas fa-edit fa-sm text-white-50" data-toggle="modal" data-target="#myModal"></i> Tambah Siswa</a>
     </div>
 
+
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -35,16 +36,7 @@
 
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Nomor Hp</th>
-                            <th>Nama Wali</th>
-                            <th>Kelas</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </tfoot>
+
                     <tbody>
 
                         @if($siswa->isNotEmpty())
@@ -86,11 +78,12 @@
                     </tbody>
 
                 </table>
+                {{-- Paggination --}}
                 <div class="d-flex justify-content-end">
-
                          {{ $siswa->links() }}
-
                 </div>
+
+                {{-- Response Success --}}
                 @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -153,8 +146,8 @@
                         <select name="id_kelas" class="form-select form-control form-select-lg mb-3 @error('kelas')
                             is-invalid
                         @enderror" aria-label="Large select example">
-                        @foreach ($kelas as $class )
                         <option selected>Pilih Kelas</option>
+                        @foreach ($kelas as $class )
                         <option value="{{ $class->id }}">{{ $class->nama_kelas }}</option>
                         @endforeach
                           </select>

@@ -2,6 +2,24 @@
 
 @section('title', 'Dashboards Admin')
 
+@section('style')
+<style>
+ .full-width-40px {
+    width: 100%;
+    height: 40vh;
+    overflow: hidden; /* Menyembunyikan bagian gambar yang melampaui tinggi 40px */
+    position: relative;
+}
+
+.full-width-40px img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Menjaga aspek rasio gambar sambil mengisi elemen */
+    object-position:inherit; /* Memastikan bagian tengah gambar yang terlihat */
+}
+
+    </style>
+@endsection
 
 @section('content')
 
@@ -16,6 +34,24 @@
 
     <!-- Content Row -->
     <div class="row">
+
+        {{-- Bakground --}}
+        <div class="col-xl-12 col-lg-11">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">SDIT AL-ISTIQOMAH</h6>
+
+                </div>
+                <!-- Card Body -->
+                <div class="card-body h-50 ">
+                    <div class="full-width-40px">
+                   <img src="{{ asset('./img/Background.jpg') }}" alt="" class="img-fluid">
+                </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">

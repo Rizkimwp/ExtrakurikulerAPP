@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Extrakurikuler;
 
 class EventController extends Controller
 {
     //Get
 
     public function index() {
+        $extrakurikuler = Extrakurikuler::all();
+        foreach ($extrakurikuler as $ek) {
+            $ek->deskripsi = Str::limit($ek->deskripsi, 50);
+        }
         $event = Event::all();
-        return view('pages.event', ['event' => $event]);
+        return view('pages.event', ['event' => $event, 'extrakurikuler' => $extrakurikuler]);
     }
     // Store (Create)
     public function store(Request $request)
@@ -19,12 +25,17 @@ class EventController extends Controller
         $validatedData = $request->validate([
             'nama' => 'required|string',
             'deskripsi' => 'required|string',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_akhir' => 'required|date|after_or_equal:tanggal_mulai',
+            'jadwal' => 'required|date',
+            'id_extrakurikuler' => 'required',
+
         ]);
 
-        $event = Event::create($validatedData);
-        return response()->json($event, 201);
+        try {
+            $event = Event::create($validatedData);
+            return redirect()->route('event')->with('success', 'Data berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menambahkan data.']);
+        }
     }
 
     // Update
@@ -33,8 +44,8 @@ class EventController extends Controller
         $validatedData = $request->validate([
             'nama' => 'string',
             'deskripsi' => 'string',
-            'tanggal_mulai' => 'date',
-            'tanggal_akhir' => 'date|after_or_equal:tanggal_mulai',
+            'jadwal' => 'date',
+
         ]);
 
         $event = Event::find($id);

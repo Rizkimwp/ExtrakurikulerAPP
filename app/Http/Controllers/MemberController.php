@@ -2,47 +2,99 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Siswa;
 use App\Models\Member;
 use Illuminate\Http\Request;
+use App\Models\Extrakurikuler;
 
 class MemberController extends Controller
 {
 
-    public function index() {
-        $member = Member::all();
-        return view('pages.member', ['member' => $member]);
+    public function index(Request $request) {
+        $siswa = Siswa::all();
+        $registered = Member::pluck('id_siswa')->all();
+        $unregisteredSiswa = $siswa->whereNotIn('id', $registered);
+        $extrakurikuler = Extrakurikuler::all();
+
+        // Ambil input pencarian
+        $search = $request->input('search');
+
+        if ($search) {
+            // Cari siswa yang memiliki ekstrakurikuler dengan ID yang dicari
+            $registeredSiswa = Siswa::whereHas('ekstrakurikulers', function ($query) use ($search) {
+                $query->where('extrakurikulers.id', $search);
+            })->whereIn('id', $registered)->get();
+
+            $unregisteredSiswa = Siswa::whereHas('ekstrakurikulers', function ($query) use ($search) {
+                $query->where('extrakurikulers.id', $search);
+            })->whereNotIn('id', $registered)->get();
+        } else {
+            // Jika tidak ada pencarian, ambil semua siswa yang sudah terdaftar
+            $registeredSiswa = Siswa::with('ekstrakurikulers')->whereIn('id', $registered)->get();
+            $unregisteredSiswa = Siswa::whereNotIn('id', $registered)->get();
+        }
+
+        return view('pages.member', [
+            'siswa' => $unregisteredSiswa,
+            'extra' => $extrakurikuler,
+            'update' => $extrakurikuler,
+            'member' => $registeredSiswa
+        ]);
     }
 
 
+
+
+
     public function store(Request $request)
-{
-    $request->validate([
-        'id_siswa' => 'required|exists:siswas,id',
-        'id_extrakurikuler' => 'required|exists:extrakurikulers,id',
+        {
+    $validate = $request->validate([
+        'id_siswa' => 'required',
+        'id_ekstrakurikuler' => 'required',
     ]);
 
-    Member::create($request->all());
+    try {
 
-    return redirect()->route('members.index')->with('success', 'Member berhasil ditambahkan.');
-}
+        $member = Member::create($validate);
+        return redirect()->route('member')->with('success', 'Member berhasil ditambahkan.');
+    } catch (\Exception $e) {
+        return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menambahkan data member.']);
+    }
+        }
 
-public function update(Request $request, Member $member)
+public function update(Request $request, $id)
 {
-    $request->validate([
-        'id_siswa' => 'required|exists:siswas,id',
-        'id_extrakurikuler' => 'required|exists:extrakurikulers,id',
+   $validate =  $request->validate([
+        'id_ekstrakurikuler' => 'required|exists:extrakurikulers,id',
     ]);
 
-    $member->update($request->all());
+    try{
 
-    return redirect()->route('members.index')->with('success', 'Member berhasil diperbarui.');
+        $member = Member::where('id_siswa', $id)->firstOrFail();
+        $member->update($validate);
+
+        return redirect()->route('member')->with('success', 'Member berhasil diperbarui.');
+    } catch (\Execption $e)
+    {
+        return redirect()->back()->withErrors(['error' => 'Terjadi Kesalahan Saat Update Data']);
+    };
+
 }
 
-public function destroy(Member $member)
+public function delete($id)
 {
-    $member->delete();
+    try
+    {
+        $member = Member::where('id_siswa', $id)->firstOrFail();
 
-    return redirect()->route('members.index')->with('success', 'Member berhasil dihapus.');
+        $member->delete();
+        return redirect()->route('member')->with('success', 'Member berhasil dihapus.');
+    }
+    catch (\Exeption $e)
+    {
+        return redirect()->back()->withErrors(['error' => 'Terjadi Kesalahan Saat Menghapus Data Member']);
+    }
+
 }
 
 }

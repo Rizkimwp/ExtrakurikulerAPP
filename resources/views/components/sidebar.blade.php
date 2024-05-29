@@ -72,7 +72,7 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="{{ route('galery') }}">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Galery</span></a>
             </li>

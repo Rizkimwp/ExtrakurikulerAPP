@@ -11,7 +11,7 @@ class SiswaController extends Controller
     //
     public function index() {
         $kelas = Kelas::all();
-        $siswa = Siswa::paginate(1);
+        $siswa = Siswa::paginate(5);
         return view('pages.siswa', ['siswa'=>$siswa,
     'kelas' => $kelas]);
     }

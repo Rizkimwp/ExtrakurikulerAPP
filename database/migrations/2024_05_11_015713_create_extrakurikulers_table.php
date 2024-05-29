@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('nama');
             $table->text('deskripsi');
             $table->string('gambar')->nullable();
+            $table->string('hari')->nullable(); // Kolom untuk menyimpan hari dalam minggu (e.g., 'Monday', 'Wednesday')
+            $table->time('time')->nullable(); // Kolom untuk menyimpan waktu aktivitas (e.g., '14:00:00')
             $table->timestamps();
         });
     }
