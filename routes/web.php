@@ -15,7 +15,7 @@ Route::get('/login', [AuthController::class, 'index'])->name('loginview');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/user', [AuthController::class, 'user'])->middleware('auth:sanctum');
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:superadmin'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard',[DashboardController::class, 'index']) ->name('dashboard');
 
