@@ -3,6 +3,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\GaleryController;
@@ -19,6 +20,11 @@ Route::middleware(['auth:sanctum', 'role:superadmin'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard',[DashboardController::class, 'index']) ->name('dashboard');
 
+// User
+
+Route::get('/profile', [UserController::class, 'show'])->name('showprofile');
+Route::get('/password/change', [UserController::class, 'showChangePassword'])->name('password.change');
+Route::post('/password/update', [UserController::class, 'changePassword'])->name('password.update');
     // Extrakurikuler
     Route::get('/extrakurikuler', [ExtrakurikulerController::class, 'index'])->name('extrakurikuler');
     Route::post('/extrakurikuler', [ExtrakurikulerController::class, 'store'])->name('extracreate');

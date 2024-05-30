@@ -34,4 +34,52 @@ class GaleryController extends Controller
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menambahkan data.']);
         }
     }
+
+
+    public function update(Request $request, $id) {
+        $validate = $request->validate([
+            'nama' => 'required|string',
+            'id_extrakurikuler' => 'required|string',
+            'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $galery = Galery::findOrFail($id);
+
+        if ($request->hasFile('gambar')) {
+            // Delete the old image if it exists
+            if ($galery->gambar) {
+                Storage::disk('public')->delete($galery->gambar);
+            }
+
+            // Store the new image
+            $file = $request->file('gambar');
+            $path = $file->store('images', 'public');
+            $validate['gambar'] = $path;
+        }
+
+        try {
+            $galery->update($validate);
+            return redirect()->route('galery')->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat memperbarui data.']);
+        }
+    }
+
+    public function destroy($id) {
+        $galery = Galery::findOrFail($id);
+
+        try {
+            // Delete the image file if it exists
+            if ($galery->gambar) {
+                Storage::disk('public')->delete($galery->gambar);
+            }
+
+            $galery->delete();
+            return redirect()->route('galery')->with('success', 'Data berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menghapus data.']);
+        }
+    }
+
+
 }
