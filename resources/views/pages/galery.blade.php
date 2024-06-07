@@ -45,7 +45,7 @@
                 <div class="carousel-item @if($index == 0) active @endif">
                   <div class="row">
                     @foreach ($chunk as $item)
-                    <div class="col-3">
+                    <div class="col-3 m-8">
                       <div class="card" style="width: 18rem; margin: auto;">
                         <img src="{{ $item->gambar }}" class="card-img-top" alt="image" height="150px" width="200px">
                         <div class="card-body bg-warning">

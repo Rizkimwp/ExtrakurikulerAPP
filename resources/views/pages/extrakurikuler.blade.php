@@ -37,7 +37,7 @@
                             <div class="card-body bg-warning">
                                 <h5 class="card-title text-dark">{{ $item->nama }}</h5>
                                 <p class="card-text text-dark">{{ $item->deskripsi }}</p>
-                                <a href="#" class="btn btn-primary">Lihat Detail</a>
+                                <a href="#" class="btn btn-primary btn-detail" data-gambar="{{ $item->gambar }}" data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" data-deskripsi="{{ $item->deskripsi }}" data-toggle="modal" data-target="#detail">Lihat Detail</a>
                                 <button class="btn btn-danger btn-delete" type="button"
                                 data-id="{{ $item->id }}"
                                     data-nama="{{ $item->nama }}"
@@ -75,6 +75,23 @@
 @endif
 </div>
 
+{{-- Modal Detail --}}
+
+<div class="modal fade" id="detail" tabindex="-1" aria-labelledby="detail" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailLabel"> Detail Extrakurikuler</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">    <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h5 id="detailNama"></h5>
+                <p id="detailDeskripsi"></p>
+                <img id="detailGambar" src="" alt="image" style="width:100%; heigth:auto;">
+            </div>
+        </div>
+    </div>
+</div>
 {{-- Modal Tambah --}}
 
 <div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -145,7 +162,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 Apakah Anda yakin ingin menghapus data <strong id="deleteNama"></strong>?
@@ -202,6 +219,29 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const detailButton = document.querySelectorAll('.btn-detail');
+
+        detailButton.forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const nama = this.getAttribute('data-nama');
+                const deskripsi = this.getAttribute('data-deskripsi');
+                const gambar = this.getAttribute('data-gambar')
+
+                document.getElementById('detailNama').textContent = nama;
+                document.getElementById('detailDeskripsi').textContent = deskripsi;
+                document.getElementById('detailGambar').src = gambar ;
+
+                const detailModal = new bootstrap.Modal(document.getElementById('detail'))
+                detailModal.show()
+            })
+    })
+})
+
 </script>
 
 @endsection

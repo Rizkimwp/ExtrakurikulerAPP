@@ -19,9 +19,9 @@ class Siswa extends Model
         return $this->belongsTo(Kelas::class);
     }
 
-    public function ekstrakurikulers()
+    public function extrakurikulers()
 {
-    return $this->belongsToMany(Extrakurikuler::class, 'members', 'id_siswa', 'id_ekstrakurikuler');
+    return $this->belongsToMany(Extrakurikuler::class, 'members', 'id_siswa', 'id_extrakurikuler');
 }
 
 }

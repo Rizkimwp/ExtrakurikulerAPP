@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\KelasController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\GaleryController;
 use App\Http\Controllers\MemberController;
@@ -30,12 +31,17 @@ Route::post('/password/update', [UserController::class, 'changePassword'])->name
     Route::post('/extrakurikuler', [ExtrakurikulerController::class, 'store'])->name('extracreate');
     Route::delete('/extrakurikuler/{id}', [ExtrakurikulerController::class, 'delete'])->name('extradelete');
 
+    Route::get('/data', [DashboardController::class, 'data'])->name('data');
     // Event
     Route::get('/event', [EventController::class, 'index'])->name('event');
     Route::post('/event', [EventController::class, 'store'])->name('eventcreate');
     Route::put('/event/{id}', [EventController::class, 'update'])->name('eventupdate');
     Route::delete('/event/{id}', [EventController::class, 'destroy'])->name('eventdelete');
 
+    // Kelas
+    Route::get('/kelas', [KelasController::class, 'index'])->name('kelas');
+    Route::post('/kelas', [KelasController::class, 'store'])->name('createkelas');
+    Route::delete('/kelas/{id}', [KelasController::class, 'destroy'])->name('deletekelas');
     // Siswa
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa');
     Route::post('/siswa', [SiswaController::class, 'store'])->name('createsiswa');

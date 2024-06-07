@@ -3,13 +3,15 @@ Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,Bli
 Chart.defaults.global.defaultFontColor = '#858796';
 
 // Pie Chart Example
+
+fetch('/data').then(response => response.json()).then(data => {
 var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: ["Siswa", "Peserta", "Extrakurikuler"],
+    labels: ["Siswa", "Event", "Extrakurikuler", "Member"],
     datasets: [{
-      data: [55, 30, 15],
+      data: [data.siswa, data.event, data.extra, data.member],
       backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
       hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
@@ -33,3 +35,4 @@ var myPieChart = new Chart(ctx, {
     cutoutPercentage: 80,
   },
 });
+})  .catch(error => console.error('Error fetching data:', error));

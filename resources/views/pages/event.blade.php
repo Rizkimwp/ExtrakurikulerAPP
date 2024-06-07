@@ -9,7 +9,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"> List Event</h1>
         <button id="openModal" type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-edit fa-sm text-white-50" data-toggle="modal" data-target="#myModal"></i> Tambah Extrakurikuler</a>
+                class="fas fa-edit fa-sm text-white-50" data-toggle="modal" data-target="#myModal"></i> Tambah Event</a>
     </div>
 
     <div class="container">
@@ -26,10 +26,10 @@
                                 <h2 class="card-title text-dark fw-bold">{{ $item->nama }}</h5>
                                     <p class="card-text text-dark">{{ $item->deskripsi }}</p>
                                     <h5 class="card-title text-dark">{{ $item->jadwal }}</h5>
-                                <a href="#" class="btn btn-primary">Lihat Detail</a>
+                                <a href="#" class="btn btn-primary btn-detail" data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" data-deskripsi="{{ $item->deskripsi }}"data-jadwal="{{ $item->jadwal }}" data-toggle="modal" data-target="#detail">Lihat Detail</a>
                                 <button class="btn btn-danger btn-delete" type="button"
                                 data-id="{{ $item->id }}"
-                                    data-nama="{{ $item->nama }}"
+                                data-nama="{{ $item->nama }}"
                                 data-toggle="modal"
                                 data-target="#deleteModal">
                                 Hapus
@@ -64,9 +64,25 @@
 @endif
 </div>
 
+{{-- Detail Modal --}}
+<div class="modal fade" id="detail" tabindex="-1" aria-labelledby="detail" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailLabel"> Detail Extrakurikuler</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h5 id="detailNama"></h5>
+                <p id="detailDeskripsi"></p>
+                <p id="detailJadwal"></p>
 
+            </div>
+        </div>
+    </div>
+</div>
 {{-- Modal Tambah --}}
-<div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -133,7 +149,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 Apakah Anda yakin ingin menghapus data <strong id="deleteNama"></strong>?
@@ -155,24 +171,48 @@
 @section('script')
 <script>
 
-document.getElementById('openModal').addEventListener('click' , function() {
-    $('#modalTambah').modal('show')
+document.getElementById('openModal').addEventListener('click', function() {
+    $('#myModal').modal('show')
 })
+        $('#myModal').on('show.bs.modal', function (e) {
 
-$("#modalTambah").on('show.bs.modal', function(e) {
+        });
 
-})
-$("#modalTambah").on('hidden.bs.modal', function(e) {
+        // Event listener untuk saat modal ditutup
+        $('#myModal').on('hidden.bs.modal', function (e) {
 
-})
+        });
+
+
 </script>
 
 <script>
     document.getElementById('submitButton').addEventListener('click', function() {
         document.getElementById('formTambah').submit()
     })
-    // Modal Delete
 
+    // Modal DDetail
+    document.addEventListener('DOMContentLoaded', function() {
+        const detailModal = document.querySelectorAll('.btn-detail');
+
+        detailModal.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id= this.getAttribute('data-id');
+                const nama= this.getAttribute('data-nama');
+                const deskripsi = this.getAttribute('data-deskripsi');
+                const jadwal = this.getAttribute('data-jadwal');
+
+                document.getElementById('detailNama').textContent = nama;
+                document.getElementById('detailDeskripsi').textContent = deskripsi;
+                document.getElementById('detailJadwal').textContent = jadwal;
+
+                const detailModal = new bootstrap.Modal(document.getElementById('detail'));
+                detailModal.show()
+            })
+        })
+    })
+
+    // Modal Delete
     document.addEventListener('DOMContentLoaded', function() {
             const deleteButtons = document.querySelectorAll('.btn-delete');
 
@@ -191,6 +231,8 @@ $("#modalTambah").on('hidden.bs.modal', function(e) {
                     deleteModal.show();
                 });
             });
+
+
         });
     </script>
 @endsection

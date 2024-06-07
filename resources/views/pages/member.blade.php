@@ -32,7 +32,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="siswa"> Pilih Ekstrakurikuler </label>
-                    <select name="id_ekstrakurikuler" class="form-control mb-3" aria-label="Large select example" required>
+                    <select name="id_extrakurikuler" class="form-control mb-3" aria-label="Large select example" required>
                         <option selected>Pilih Extrakurikuler</option>
                         @foreach ($extra as $item )
                         <option value="{{ $item->id }}">{{ $item->nama }}</option>
@@ -102,7 +102,7 @@
                                 <td>{{ $data->nama }}</td>
                                 <td>{{ $data->nomor_hp }}</td>
                                 <td>
-                                    @foreach($data->ekstrakurikulers as $extra)
+                                    @foreach($data->extrakurikulers as $extra)
                                         {{ $extra->nama }}<br>
                                     @endforeach
                                 </td>
@@ -110,7 +110,7 @@
                                     <button type="button" class="btn btn-primary btn-edit"
                                         data-id="{{ $data->id }}"
                                         data-nama="{{ $data->nama }}"
-                                        data-ekstrakurikuler-ids="{{ $data->ekstrakurikulers->pluck('id')->implode(',') }}"
+                                        data-ekstrakurikuler-ids="{{ $data->extrakurikulers->pluck('id')->implode(',') }}"
                                         data-toggle="modal"
                                         data-target="#editModal">
                                         Edit

@@ -21,16 +21,16 @@ class MemberController extends Controller
 
         if ($search) {
             // Cari siswa yang memiliki ekstrakurikuler dengan ID yang dicari
-            $registeredSiswa = Siswa::whereHas('ekstrakurikulers', function ($query) use ($search) {
+            $registeredSiswa = Siswa::whereHas('extrakurikulers', function ($query) use ($search) {
                 $query->where('extrakurikulers.id', $search);
             })->whereIn('id', $registered)->get();
 
-            $unregisteredSiswa = Siswa::whereHas('ekstrakurikulers', function ($query) use ($search) {
+            $unregisteredSiswa = Siswa::whereHas('extrakurikulers', function ($query) use ($search) {
                 $query->where('extrakurikulers.id', $search);
             })->whereNotIn('id', $registered)->get();
         } else {
             // Jika tidak ada pencarian, ambil semua siswa yang sudah terdaftar
-            $registeredSiswa = Siswa::with('ekstrakurikulers')->whereIn('id', $registered)->get();
+            $registeredSiswa = Siswa::with('extrakurikulers')->whereIn('id', $registered)->get();
             $unregisteredSiswa = Siswa::whereNotIn('id', $registered)->get();
         }
 
@@ -50,7 +50,7 @@ class MemberController extends Controller
         {
     $validate = $request->validate([
         'id_siswa' => 'required',
-        'id_ekstrakurikuler' => 'required',
+        'id_extrakurikuler' => 'required',
     ]);
 
     try {
@@ -65,7 +65,7 @@ class MemberController extends Controller
 public function update(Request $request, $id)
 {
    $validate =  $request->validate([
-        'id_ekstrakurikuler' => 'required|exists:extrakurikulers,id',
+        'id_extrakurikuler' => 'required|exists:extrakurikulers,id',
     ]);
 
     try{

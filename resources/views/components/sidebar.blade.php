@@ -37,7 +37,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu:</h6>
                         <a class="collapse-item" href="{{ route('siswa') }}">Table Siswa</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        <a class="collapse-item" href="{{ route('kelas') }}">Kelas</a>
                     </div>
                 </div>
             </li>
@@ -55,7 +55,6 @@
                         <h6 class="collapse-header">Menu:</h6>
                         <a class="collapse-item" href="{{ route('member') }}">Pendaftaran</a>
                         <a class="collapse-item" href="{{ route('extrakurikuler') }}">List Extrakurikuler</a>
-
                     </div>
                 </div>
             </li>
@@ -77,12 +76,7 @@
                     <span>Galery</span></a>
             </li>
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-chart-pie"></i>
-                    <span>Laporan</span></a>
-            </li>
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

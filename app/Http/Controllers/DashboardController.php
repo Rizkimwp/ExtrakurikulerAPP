@@ -20,4 +20,18 @@ class DashboardController extends Controller
         $member = Member::count();
         return view('pages.dashboard', compact('extra', 'event', 'siswa' , 'member'));
     }
+
+    public function data() {
+    $extra = Extrakurikuler::count();
+    $event = Event::count();
+    $siswa = Siswa::count();
+    $member = Member::count();
+
+    return response()->json([
+        'extra' => $extra,
+        'event' => $event,
+        'siswa' => $siswa,
+        'member' => $member,
+    ]);
+}
 }
