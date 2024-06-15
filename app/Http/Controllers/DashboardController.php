@@ -34,4 +34,13 @@ class DashboardController extends Controller
         'member' => $member,
     ]);
 }
+
+public function getSiswa()
+{
+    // Get all extracurricular activities with their participants count
+    $extrakurikulers = Extrakurikuler::withCount('siswas')->get();
+
+    // Return the result
+    return response()->json($extrakurikulers);
+}
 }

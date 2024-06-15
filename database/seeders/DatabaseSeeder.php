@@ -26,6 +26,13 @@ class DatabaseSeeder extends Seeder
             'password' => '1234'
         ]);
 
+       $pembina = User::factory()->create([
+            'name' => 'Pembina',
+            'email' => 'pembina@gmail.com',
+            'password' => '1234'
+        ]);
+
         $user->roles()->attach($adminRole);
+        $pembina->roles()->attach($userRole);
     }
 }

@@ -2,37 +2,64 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-// Pie Chart Example
+// Bar Chart Example
 
-fetch('/data').then(response => response.json()).then(data => {
-var ctx = document.getElementById("myPieChart");
-var myPieChart = new Chart(ctx, {
-  type: 'doughnut',
-  data: {
-    labels: ["Siswa", "Event", "Extrakurikuler", "Member"],
-    datasets: [{
-      data: [data.siswa, data.event, data.extra, data.member],
-      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-      hoverBorderColor: "rgba(234, 236, 244, 1)",
-    }],
-  },
-  options: {
-    maintainAspectRatio: false,
-    tooltips: {
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
-      borderColor: '#dddfeb',
-      borderWidth: 1,
-      xPadding: 15,
-      yPadding: 15,
-      displayColors: false,
-      caretPadding: 10,
-    },
-    legend: {
-      display: false
-    },
-    cutoutPercentage: 80,
-  },
-});
-})  .catch(error => console.error('Error fetching data:', error));
+fetch('/count')
+    .then(response => response.json())
+    .then(data => {
+        const labels = [];
+        const counts = [];
+        const colors = [
+            '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796', '#5a5c69', '#f8f9fc', '#e3e6f0', '#dddfeb'
+        ];
+
+        data.forEach(item => {
+            labels.push(item.nama);          // Assuming 'nama' is the name of the extracurricular activity
+            counts.push(item.siswas_count);  // Assuming 'siswas_count' is the count of participants
+        });
+
+        // Generate an array of colors to match the number of bars
+        const backgroundColors = counts.map((_, index) => colors[index % colors.length]);
+        const borderColors = counts.map((_, index) => colors[index % colors.length]);
+
+        console.log(counts);
+        var ctx = document.getElementById("myBarChart").getContext('2d');
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: labels,
+                    data: counts,
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
+                    borderWidth: 1
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: true
+                },
+            },
+        });
+    })
+    .catch(error => console.error('Error fetching data:', error));
