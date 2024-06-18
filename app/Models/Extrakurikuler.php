@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Event;
+
 use App\Models\Siswa;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,9 +18,6 @@ class Extrakurikuler extends Model
     return $this->belongsToMany(Siswa::class, 'members', 'id_extrakurikuler', 'id_siswa');
 }
 
-public function events()
-{
-    return $this->hasMany(Event::class);
-}
+
 
 }

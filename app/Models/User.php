@@ -62,8 +62,5 @@ public function hasRole($role)
 }
 
 
-public function permissions()
-{
-    return $this->belongsToMany(Permission::class);
-}
+
 }

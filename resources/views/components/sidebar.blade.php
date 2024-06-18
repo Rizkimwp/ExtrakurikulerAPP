@@ -27,25 +27,48 @@
 
     <!-- Conditionally show Data Siswa menu for admin and superadmin -->
     @hasanyrole('admin')
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-archive"></i>
-                <span>Data Siswa</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Menu:</h6>
-                    <a class="collapse-item" href="{{ route('siswa') }}">Biodata</a>
-                    <a class="collapse-item" href="{{ route('kelas') }}">Kelas</a>
-                </div>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+            aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-bullseye"></i>
+            <span>Extrakurikuler</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Menu:</h6>
+                <a class="collapse-item" href="{{ route('member') }}">Pendaftaran</a>
+                <a class="collapse-item" href="{{ route('extrakurikuler') }}">List Extrakurikuler</a>
             </div>
-        </li>
+        </div>
+    </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('event') }}">
+            <a class="nav-link" href="{{ route('posts') }}">
                 <i class="fas fa-fw fa-calendar"></i>
-                <span>Event</span>
+                <span>Blog</span>
             </a>
+        </li>
+        <hr class="sidebar-divider d-none d-md-block">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsethree"
+            aria-expanded="true" aria-controls="collapsethree">
+            <i class="fas fa-fw fa-user-edit"></i>
+            <span>Pengaturan</span>
+        </a>
+        <div id="collapsethree" class="collapse" aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Menu:</h6>
+                <a class="collapse-item" href="{{ route('showprofile') }}">Profile</a>
+                <a class="collapse-item" href="{{ route('password.change') }}">Ubah Password</a>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+
+
         </li>
     @endhasanyrole
 
@@ -85,7 +108,7 @@
     <!-- Nav Item - Event (Visible to admin and superadmin) -->
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('event') }}">
+            <a class="nav-link" href="{{ route('posts') }}">
                 <i class="fas fa-fw fa-edit"></i>
                 <span>Blog</span>
             </a>
