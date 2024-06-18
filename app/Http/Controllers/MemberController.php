@@ -10,37 +10,55 @@ use App\Models\Extrakurikuler;
 class MemberController extends Controller
 {
 
-    public function index(Request $request) {
-        $siswa = Siswa::all();
-        $registered = Member::pluck('id_siswa')->all();
-        $unregisteredSiswa = $siswa->whereNotIn('id', $registered);
-        $extrakurikuler = Extrakurikuler::all();
+    public function index(Request $request)
+{
+    // Ambil semua siswa
+    $siswa = Siswa::all();
 
-        // Ambil input pencarian
-        $search = $request->input('search');
+    // Ambil ID siswa yang sudah terdaftar
+    $registeredIds = Member::pluck('id_siswa')->all();
 
-        if ($search) {
-            // Cari siswa yang memiliki ekstrakurikuler dengan ID yang dicari
-            $registeredSiswa = Siswa::whereHas('extrakurikulers', function ($query) use ($search) {
-                $query->where('extrakurikulers.id', $search);
-            })->whereIn('id', $registered)->get();
+    $unregisteredSiswa = $siswa->filter(function ($siswa) use ($registeredIds) {
+        // Hitung berapa banyak extrakurikuler yang sudah didaftarkan siswa ini
+        $registeredCount = Member::where('id_siswa', $siswa->id)->count();
 
-            $unregisteredSiswa = Siswa::whereHas('extrakurikulers', function ($query) use ($search) {
-                $query->where('extrakurikulers.id', $search);
-            })->whereNotIn('id', $registered)->get();
-        } else {
-            // Jika tidak ada pencarian, ambil semua siswa yang sudah terdaftar
-            $registeredSiswa = Siswa::with('extrakurikulers')->whereIn('id', $registered)->get();
-            $unregisteredSiswa = Siswa::whereNotIn('id', $registered)->get();
-        }
+        // Filter siswa yang belum mencapai batas maksimal (3 kali)
+        return $registeredCount < 3 || !in_array($siswa->id, $registeredIds);
+    });
 
-        return view('pages.member', [
-            'siswa' => $unregisteredSiswa,
-            'extra' => $extrakurikuler,
-            'update' => $extrakurikuler,
-            'member' => $registeredSiswa
-        ]);
+
+    // Ambil semua extrakurikuler
+    $extrakurikuler = Extrakurikuler::all();
+
+    // Ambil input pencarian
+    $search = $request->input('search');
+
+    // Jika ada pencarian
+    if ($search) {
+        // Cari siswa yang sudah terdaftar pada extrakurikuler tertentu
+        $registeredSiswa = Siswa::whereHas('extrakurikulers', function ($query) use ($search) {
+            $query->where('extrakurikulers.id', $search);
+        })->whereIn('id', $registeredIds)->get();
+
+        // Cari siswa yang belum terdaftar pada extrakurikuler tertentu
+        $unregisteredSiswa = Siswa::whereHas('extrakurikulers', function ($query) use ($search) {
+            $query->where('extrakurikulers.id', $search);
+        })->whereNotIn('id', $registeredIds)->get();
+    } else {
+        // Jika tidak ada pencarian, ambil semua siswa yang sudah terdaftar pada extrakurikuler
+        $registeredSiswa = Siswa::with('extrakurikulers')->whereIn('id', $registeredIds)->get();
     }
+
+
+
+    return view('pages.member', [
+        'siswa' => $unregisteredSiswa,
+        'extra' => $extrakurikuler,
+        'update' => $extrakurikuler,
+        'member' => $registeredSiswa
+    ]);
+}
+
 
 
 
