@@ -38,7 +38,7 @@
                         <div class="col-lg-6 d-none d-lg-block ">
                             <div class="text-center p-2">
                                 <img src="{{ asset('img/Logo.png') }}" width="100%">
-                                <h1 class="text-warning freeman-regular ">SIE ISTI</h1>
+                                <h1 class="text-warning freeman-regular ">SDIT AL-ISTIQOMAH</h1>
                                 <h2 class="text-gray-800 freeman-regular">SISTEM INFORMASI EXTRAKURIKULER</h1>
                             </div>
                         </div>

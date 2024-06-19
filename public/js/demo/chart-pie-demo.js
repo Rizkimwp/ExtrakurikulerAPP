@@ -22,7 +22,7 @@ fetch('/count')
         const backgroundColors = counts.map((_, index) => colors[index % colors.length]);
         const borderColors = counts.map((_, index) => colors[index % colors.length]);
 
-        console.log(counts);
+
         var ctx = document.getElementById("myBarChart").getContext('2d');
         var myBarChart = new Chart(ctx, {
             type: 'bar',

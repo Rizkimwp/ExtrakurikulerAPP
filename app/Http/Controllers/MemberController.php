@@ -64,21 +64,30 @@ class MemberController extends Controller
 
 
 
-    public function store(Request $request)
-        {
-    $validate = $request->validate([
+public function store(Request $request)
+{
+    $request->validate([
         'id_siswa' => 'required',
         'id_extrakurikuler' => 'required',
     ]);
 
-    try {
+    // Check if the combination of id_siswa and id_extrakurikuler already exists
+    $existingMember = Member::where('id_siswa', $request->id_siswa)
+                           ->where('id_extrakurikuler', $request->id_extrakurikuler)
+                           ->first();
 
-        $member = Member::create($validate);
+    if ($existingMember) {
+        return redirect()->back()->withErrors(['error' => 'Siswa sudah terdaftar di ekstrakurikuler ini.']);
+    }
+
+    try {
+        $member = Member::create($request->all());
         return redirect()->route('member')->with('success', 'Member berhasil ditambahkan.');
     } catch (\Exception $e) {
         return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menambahkan data member.']);
     }
-        }
+}
+
 
 public function update(Request $request, $id)
 {

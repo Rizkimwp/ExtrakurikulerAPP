@@ -115,7 +115,7 @@
                             </div>
                             <div class="mb-3">
                             <label for="body" class="form-label required">Body</label>
-                            <textarea id="editor" name="body"></textarea>
+                            <textarea id="editor1" name="body"></textarea>
                            @error('body')
                            <div class="invalid-feedback">{{ $message }}</div>
                        @enderror
@@ -223,10 +223,7 @@ document.getElementById('openModal').addEventListener('click', function() {
 
 
 </script>
-<script>
-    // Initialize CKEditor
-    CKEDITOR.replace('editor');
-</script>
+
 <script>
     document.getElementById('submitButton').addEventListener('click', function() {
         document.getElementById('formTambah').submit()
@@ -249,7 +246,7 @@ document.getElementById('openModal').addEventListener('click', function() {
 
             // Fill form inputs
             document.getElementById('edit_judul').value = judul;
-            document.getElementById('body').value=body
+            document.getElementById('body').value = body;
             document.getElementById('edit_image').src = image;
             // Show the modal
             $('#editModal').modal('show');
@@ -290,6 +287,13 @@ document.getElementById('openModal').addEventListener('click', function() {
  <script>
     ClassicEditor
         .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
+ <script>
+    ClassicEditor
+        .create( document.querySelector( '#editor1' ) )
         .catch( error => {
             console.error( error );
         } );

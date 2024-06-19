@@ -33,7 +33,7 @@ var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["Siswa", "Peserta", "Extrakurikuler", "Event"],
+    labels: ["Siswa", "Peserta", "Extrakurikuler", "Posts"],
     datasets: [{
       label: "Jumlah",
       lineTension: 0.3,
@@ -47,7 +47,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [data.siswa, data.member, data.extra, data.event],
+      data: [data.siswa, data.member, data.extra, data.posts],
     }],
   },
   options: {

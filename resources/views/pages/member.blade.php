@@ -61,11 +61,15 @@
    @endif
 
         <!-- Menampilkan Pesan Error -->
-@if($errors->any())
-<div class="alert alert-danger">
-       <p>{{ $errors }}</p>
-</div>
-@endif
+        @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
          <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 bg-warning">
