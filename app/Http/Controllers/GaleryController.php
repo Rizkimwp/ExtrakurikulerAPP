@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Album;
 use App\Models\Galery;
 use Illuminate\Http\Request;
 use App\Models\Extrakurikuler;
+use Illuminate\Support\Facades\Storage;
 
 class GaleryController extends Controller
 {
     public function index() {
         $galery = Galery::all();
-        $extrakurikuler = Extrakurikuler::all();
-        return view('pages.galery', compact('galery', 'extrakurikuler'));
+        $albums = Album::all();
+        return view('pages.galery', compact('galery', 'albums'));
     }
+
 
     public function store(Request $request) {
         $validate = $request->validate([
             'nama' => 'required|string',
-            'id_extrakurikuler' => 'required|string',
+            'album_id' => 'required|string',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -39,7 +42,7 @@ class GaleryController extends Controller
     public function update(Request $request, $id) {
         $validate = $request->validate([
             'nama' => 'required|string',
-            'id_extrakurikuler' => 'required|string',
+            'album_id' => 'required|string',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -77,6 +80,7 @@ class GaleryController extends Controller
             $galery->delete();
             return redirect()->route('galery')->with('success', 'Data berhasil dihapus.');
         } catch (\Exception $e) {
+
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menghapus data.']);
         }
     }

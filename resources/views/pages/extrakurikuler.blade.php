@@ -70,7 +70,7 @@
      <!-- Menampilkan Pesan Error -->
 @if($errors->any())
 <div class="alert alert-danger mt-5">
-    <p>Pastikan semua form sudah diisi</p>
+    <p>{{ $errors }}</p>
 </div>
 @endif
 </div>

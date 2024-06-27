@@ -55,7 +55,7 @@
 
                 @else
                     <tr>
-                        <td colspan="6" align="center">Tidak ada data siswa</td>
+                        <td colspan="6" align="center">Tidak ada postingan</td>
                     </tr>
                 @endif
                 </tbody>

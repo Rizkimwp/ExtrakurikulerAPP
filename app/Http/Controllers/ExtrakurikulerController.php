@@ -42,23 +42,22 @@ class ExtrakurikulerController extends Controller
     }
 
     public function delete($id) {
-        \DB::beginTransaction();
 
         try {
             // Cari data ekstrakurikuler berdasarkan ID
             $eskul = Extrakurikuler::findOrFail($id);
 
             // Hapus data yang terkait di tabel Member
-            Member::where('id_ekstrakurikuler', $id)->delete();
-
+            Member::where('id_extrakurikuler', $id)->delete();
             // Hapus data ekstrakurikuler
             $eskul->delete();
 
-            \DB::commit();
+
 
             return redirect()->route('extrakurikuler')->with('success', 'Data Extrakurikuler dan data terkait berhasil dihapus.');
         } catch (\Exception $e) {
-            \DB::rollBack();
+
+
 
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menghapus data extrakurikuler.']);
         }

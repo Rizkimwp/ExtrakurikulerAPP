@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\PostsController;
@@ -73,6 +74,12 @@ Route::middleware(['auth:sanctum', 'role:superadmin'])->group(function () {
     // Galery
     Route::get('/galery', [GaleryController::class, 'index'])->name('galery');
     Route::post('/galery', [GaleryController::class, 'store'])->name('creategalery');
+    Route::put('/galery/{id}', [GaleryController::class, 'update'])->name('updategalery');
+    Route::delete('/galery/{id}', [GaleryController::class, 'destroy'])->name('deletegalery');
+
+    Route::post('/album', [AlbumController::class, 'store'])->name('createalbum');
+    Route::put('/album/{id}', [AlbumController::class, 'update'])->name('updatealbum');
+    Route::delete('/album/{id}', [AlbumController::class, 'destroy'])->name('deletealbum');
 
     // Manajemen Akun
     Route::get('/akun', [UserController::class, 'index'])->name('user');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Album;
 use App\Models\Extrakurikuler;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,10 +11,10 @@ class Galery extends Model
 {
     use HasFactory;
     protected $table = 'galery';
-    protected $fillable = ['nama', 'gambar', 'id_extrakurikuler'];
+    protected $fillable = ['nama', 'gambar', 'album_id'];
 
-    public function extrakurikuler()
+    public function album()
     {
-        return $this->belongsTo(Extrakurikuler::class, 'id_extrakurikuler');
+        return $this->belongsTo(Album::class);
     }
 }
